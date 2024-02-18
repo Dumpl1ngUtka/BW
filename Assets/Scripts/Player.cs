@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private MenuController _menu;
-
     public PlayerParameters Parameters;
     public LayerMask GroundLayer;
     public Condition MoveCondition;
@@ -21,10 +19,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Parameters = new PlayerParameters();
         InputSystem = new PlayerInputSystem();
         InputSystem.Enable();
-        InputSystem.UI.OpenSettings.performed += ctx => StartCoroutine(OpenMenu(MenuController.OpenType.Settings));
-        InputSystem.UI.OpenInventory.performed += ctx => StartCoroutine(OpenMenu(MenuController.OpenType.Inventory));
     }
 
     public void ChangeCurrentCondition(ConditionType type)
@@ -41,14 +38,5 @@ public class Player : MonoBehaviour
                 CurrentCondition = BlockCondition;
                 break;
         }
-    }
-
-    public IEnumerator OpenMenu(MenuController.OpenType type)
-    {
-        InputSystem.Disable();
-        _menu.Open(type);
-        while (_menu.IsOpen)
-            yield return new WaitForEndOfFrame();
-        InputSystem.Enable();
     }
 }

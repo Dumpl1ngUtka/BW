@@ -1,33 +1,34 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Config/Player Parameters")]
-public class PlayerParameters : ScriptableObject
+public class PlayerParameters 
 {
     [Header("Health")]
-    [Min(0)] public float Health;//100
-    [Min(0)] public float Stamina;//100
-    [Min(0)] public float Strength;//100
-    [Min(0)] public float Dexterity;//100
+    public PlayerParameter Health = new (100,200);
+    public PlayerParameter Stamina = new(100,200);
 
     [Header("MOVEMENT")]
-    public float MaxSpeed;//7
-    public float Acceleration;//120
-    public float GroundDeceleration;//60
-    public float AirDeceleration;//30
-    [Range(0f, 0.5f)] public float GrounderDistance;//0.05f
+    public PlayerParameter MaxSpeed = new(7, 10);
+    public PlayerParameter Acceleration = new(60, 120);
+    public PlayerParameter GroundDeceleration = new(30, 60);
+    public PlayerParameter AirDeceleration = new(15, 45);
+    public float GrounderDistance = 0.05f;//Range(0f, 0.5f)
+
+    public PlayerParameter Damage = new(10, 20);
+    public PlayerParameter SoundRange = new (80, 100);
+    public PlayerParameter AdditionalNoise = new(20, 0);
 
     [Header("JUMP")]
-    public float JumpPower;//36
-    public float MaxFallSpeed;//40
-    public float FallAcceleration;//110
-    public float CoyoteTime;//0.15
-    public float JumpBuffer;//0.2
-    public float FastFallMaxSpeedModifier;//2
+    public float JumpPower = 36;
+    public float MaxFallSpeed = 40;
+    public float FallAcceleration = 110;
+    public float CoyoteTime = 0.15f;
+    public float JumpBuffer = 0.2f;
+    public float FastFallMaxSpeedModifier = 2;
 
     [Header("DODGE")]
-    public float DodgeTime;//0.2
-    public float DodgeSpeed;//20
+    public PlayerParameter DodgeTime = new(0.2f,0.3f);
+    public PlayerParameter DodgeSpeed = new(20,30);
 
     [Header("Block")]
-    public float BlockMaxSpeedModifier;//0.3
+    public PlayerParameter BlockMaxSpeedModifier = new(0.3f,0.5f);
 }

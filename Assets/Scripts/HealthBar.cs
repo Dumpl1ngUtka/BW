@@ -8,7 +8,7 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        _playerHealth.OnHealthChange += UpdateBar;
+       // _playerHealth.OnHealthChange += UpdateBar;
     }
     private void UpdateBar(float value)
     {

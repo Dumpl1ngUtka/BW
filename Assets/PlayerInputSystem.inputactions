@@ -267,24 +267,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "EquipItem",
-                    "type": "Button",
-                    "id": "7bd57c9b-94f5-4cc3-badc-2e3f2632561f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DropItem",
-                    "type": "Button",
-                    "id": "9c405e68-1124-494a-8d54-10f61aa0a23a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Switch",
                     "type": "Button",
                     "id": "09a1a0e0-f8e5-4ad4-aab1-89800e8d640a",
@@ -435,28 +417,6 @@
                     "action": "ChooseTab",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "e2b5663d-49f7-48ca-94b1-d6c21cd32d28",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "EquipItem",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dc41a33a-a9de-45d5-8e6d-3b089d4f42dc",
-                    "path": "<Keyboard>/delete",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DropItem",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",

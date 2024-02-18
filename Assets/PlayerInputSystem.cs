@@ -289,24 +289,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""EquipItem"",
-                    ""type"": ""Button"",
-                    ""id"": ""7bd57c9b-94f5-4cc3-badc-2e3f2632561f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DropItem"",
-                    ""type"": ""Button"",
-                    ""id"": ""9c405e68-1124-494a-8d54-10f61aa0a23a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Switch"",
                     ""type"": ""Button"",
                     ""id"": ""09a1a0e0-f8e5-4ad4-aab1-89800e8d640a"",
@@ -460,28 +442,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e2b5663d-49f7-48ca-94b1-d6c21cd32d28"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""EquipItem"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""dc41a33a-a9de-45d5-8e6d-3b089d4f42dc"",
-                    ""path"": ""<Keyboard>/delete"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DropItem"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""82dc8657-3b24-44f0-a05a-b450fce46f14"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -522,8 +482,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
         m_UI_ChooseItem = m_UI.FindAction("ChooseItem", throwIfNotFound: true);
         m_UI_ChooseTab = m_UI.FindAction("ChooseTab", throwIfNotFound: true);
-        m_UI_EquipItem = m_UI.FindAction("EquipItem", throwIfNotFound: true);
-        m_UI_DropItem = m_UI.FindAction("DropItem", throwIfNotFound: true);
         m_UI_Switch = m_UI.FindAction("Switch", throwIfNotFound: true);
         m_UI_Accept = m_UI.FindAction(" Accept", throwIfNotFound: true);
     }
@@ -678,8 +636,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_OpenInventory;
     private readonly InputAction m_UI_ChooseItem;
     private readonly InputAction m_UI_ChooseTab;
-    private readonly InputAction m_UI_EquipItem;
-    private readonly InputAction m_UI_DropItem;
     private readonly InputAction m_UI_Switch;
     private readonly InputAction m_UI_Accept;
     public struct UIActions
@@ -691,8 +647,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
         public InputAction @ChooseItem => m_Wrapper.m_UI_ChooseItem;
         public InputAction @ChooseTab => m_Wrapper.m_UI_ChooseTab;
-        public InputAction @EquipItem => m_Wrapper.m_UI_EquipItem;
-        public InputAction @DropItem => m_Wrapper.m_UI_DropItem;
         public InputAction @Switch => m_Wrapper.m_UI_Switch;
         public InputAction @Accept => m_Wrapper.m_UI_Accept;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
@@ -719,12 +673,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @ChooseTab.started += instance.OnChooseTab;
             @ChooseTab.performed += instance.OnChooseTab;
             @ChooseTab.canceled += instance.OnChooseTab;
-            @EquipItem.started += instance.OnEquipItem;
-            @EquipItem.performed += instance.OnEquipItem;
-            @EquipItem.canceled += instance.OnEquipItem;
-            @DropItem.started += instance.OnDropItem;
-            @DropItem.performed += instance.OnDropItem;
-            @DropItem.canceled += instance.OnDropItem;
             @Switch.started += instance.OnSwitch;
             @Switch.performed += instance.OnSwitch;
             @Switch.canceled += instance.OnSwitch;
@@ -750,12 +698,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @ChooseTab.started -= instance.OnChooseTab;
             @ChooseTab.performed -= instance.OnChooseTab;
             @ChooseTab.canceled -= instance.OnChooseTab;
-            @EquipItem.started -= instance.OnEquipItem;
-            @EquipItem.performed -= instance.OnEquipItem;
-            @EquipItem.canceled -= instance.OnEquipItem;
-            @DropItem.started -= instance.OnDropItem;
-            @DropItem.performed -= instance.OnDropItem;
-            @DropItem.canceled -= instance.OnDropItem;
             @Switch.started -= instance.OnSwitch;
             @Switch.performed -= instance.OnSwitch;
             @Switch.canceled -= instance.OnSwitch;
@@ -795,8 +737,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnChooseItem(InputAction.CallbackContext context);
         void OnChooseTab(InputAction.CallbackContext context);
-        void OnEquipItem(InputAction.CallbackContext context);
-        void OnDropItem(InputAction.CallbackContext context);
         void OnSwitch(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
     }
