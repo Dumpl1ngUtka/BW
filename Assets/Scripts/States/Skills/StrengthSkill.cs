@@ -10,6 +10,6 @@ public class StrengthSkill : Skill
 
     public override void ChangePlayerParameter(PlayerParameters playerParameters)
     {
-        playerParameters.Damage.Level = Level;
+        playerParameters.Damage.Level += Level;
     }
 }

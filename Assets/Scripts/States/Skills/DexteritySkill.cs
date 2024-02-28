@@ -10,6 +10,6 @@ public class DexteritySkill : Skill
 
     public override void ChangePlayerParameter(PlayerParameters playerParameters)
     {
-        playerParameters.Stamina.Level = Level;
+        playerParameters.Stamina.Level += Level;
     }
 }

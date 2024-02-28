@@ -1,25 +1,26 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [RequireComponent(typeof(Player))]
 public class PlayerHealth : MonoBehaviour
 {
-    //[SerializeField] private Inventory _inventory;
     private PlayerParameters _parameters;
+    private PlayerStats _playerStats;
     private Player _player;
     private float _healthMax;
     private float _health;
-    private float _timeWithoutDamage;
 
     public Action<float> OnHealthChange;
-    public Action<float> OnArmorChange;
 
-    private void Awake()
+    private void Start()
     {
+        _playerStats = GetComponent<PlayerStats>();
         _player = GetComponent<Player>();
-        _parameters = _player.Parameters;
-        _healthMax = _parameters.Health.Value;
+        _parameters = _playerStats.PlayerParameters;
+        UpdateMaxHealth();
         _health = _healthMax;
+        _playerStats.ParametersChanged += UpdateMaxHealth;
     }
 
     public void TakeDamage(float damage)
@@ -39,8 +40,8 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(hitBox.Damage);
     }
 
-    private void Update()
+    private void UpdateMaxHealth()
     {
-
+        _healthMax = _parameters.Health.Value;
     }
 }

@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerParameters Parameters;
+    public PlayerParameters Parameters { get; private set; }
     public LayerMask GroundLayer;
     public Condition MoveCondition;
     public Condition DodgeCondition;
     public Condition BlockCondition;
+    public Condition AttackCondition;
     public PlayerInputSystem InputSystem { get; private set; }
     public Condition CurrentCondition { get; private set; }
     public enum ConditionType
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
         Move,
         Dodge,
         Block,
+        Attack
     }
 
     private void Awake()
@@ -36,6 +38,12 @@ public class Player : MonoBehaviour
                 break;
             case ConditionType.Block:
                 CurrentCondition = BlockCondition;
+                break;
+            case ConditionType.Attack:
+                CurrentCondition = AttackCondition;
+                break;
+            default:
+                Debug.LogError("set condition");
                 break;
         }
     }

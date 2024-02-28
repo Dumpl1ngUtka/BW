@@ -6,6 +6,6 @@ public class EnduranceSkill : Skill
 
     public override void ChangePlayerParameter(PlayerParameters playerParameters)
     {
-        playerParameters.Stamina.Level = Level;
+        playerParameters.Stamina.Level += Level;
     }
 }

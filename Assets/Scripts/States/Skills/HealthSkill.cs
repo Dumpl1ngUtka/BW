@@ -6,6 +6,6 @@ public class HealthSkill : Skill
 
     public override void ChangePlayerParameter(PlayerParameters playerParameters)
     {
-        playerParameters.Health.Level = Level;
+        playerParameters.Health.Level += Level;
     }
 }

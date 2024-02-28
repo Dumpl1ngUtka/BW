@@ -1,29 +1,31 @@
 public abstract class Skill
 {
     private readonly int _maxLevel = 10;
-    private int _level;
-    public int Level
-    {
-        get { return _level; }
-        set
-        {
-            int newLevel = value + _level;
-            if (newLevel >= 0 || newLevel <= _maxLevel)
-                _level = newLevel;
-        }
-    }
-
-    public bool IsMaxLevel = false;
+    public int Level { get; private set; }
+ 
     public Skill(int level = 0)
     {
         Level = level;
     }
 
-    public void LevelUp(int value = 1)
+    public bool TryLevelUp(int value = 1)
     {
-        Level += value;
-        if (Level == _maxLevel)
-            IsMaxLevel = true;
+        if (value <= 0)
+            return false;
+
+        int newLevel = value + Level;
+        if (newLevel > _maxLevel)
+            return false;
+
+        Level = newLevel; 
+        return true;
+    }
+
+    public int Reset()
+    {
+        var points = Level;
+        Level = 0;
+        return points;
     }
 
     public abstract void ChangePlayerParameter(PlayerParameters playerParameters);

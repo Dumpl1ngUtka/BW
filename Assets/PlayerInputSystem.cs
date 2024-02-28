@@ -80,6 +80,15 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a213768c-fde2-4391-8351-bc9cd5e60a86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -234,6 +243,17 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwitchTakeItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24a835d6-a6a7-4961-8bce-6a75d7a646e7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -475,6 +495,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Movement_Block = m_Movement.FindAction("Block", throwIfNotFound: true);
         m_Movement_TakeItem = m_Movement.FindAction("TakeItem", throwIfNotFound: true);
         m_Movement_SwitchTakeItem = m_Movement.FindAction("SwitchTakeItem", throwIfNotFound: true);
+        m_Movement_Attack = m_Movement.FindAction("Attack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_CloseMenu = m_UI.FindAction("CloseMenu", throwIfNotFound: true);
@@ -551,6 +572,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Block;
     private readonly InputAction m_Movement_TakeItem;
     private readonly InputAction m_Movement_SwitchTakeItem;
+    private readonly InputAction m_Movement_Attack;
     public struct MovementActions
     {
         private @PlayerInputSystem m_Wrapper;
@@ -561,6 +583,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         public InputAction @Block => m_Wrapper.m_Movement_Block;
         public InputAction @TakeItem => m_Wrapper.m_Movement_TakeItem;
         public InputAction @SwitchTakeItem => m_Wrapper.m_Movement_SwitchTakeItem;
+        public InputAction @Attack => m_Wrapper.m_Movement_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -588,6 +611,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @SwitchTakeItem.started += instance.OnSwitchTakeItem;
             @SwitchTakeItem.performed += instance.OnSwitchTakeItem;
             @SwitchTakeItem.canceled += instance.OnSwitchTakeItem;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -610,6 +636,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @SwitchTakeItem.started -= instance.OnSwitchTakeItem;
             @SwitchTakeItem.performed -= instance.OnSwitchTakeItem;
             @SwitchTakeItem.canceled -= instance.OnSwitchTakeItem;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -729,6 +758,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         void OnBlock(InputAction.CallbackContext context);
         void OnTakeItem(InputAction.CallbackContext context);
         void OnSwitchTakeItem(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

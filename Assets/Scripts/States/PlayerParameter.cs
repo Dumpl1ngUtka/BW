@@ -1,12 +1,9 @@
-using UnityEngine;
-
 public class PlayerParameter
 {
     private readonly float _minLevel = 0;
-    private readonly float _maxLevel = 10;
     private float _level;
     private float _minValue;
-    private float _maxValue;
+    private float _delta;
 
     public float Level
     {
@@ -14,17 +11,16 @@ public class PlayerParameter
         set
         {
             var newLevel = value + _level;
-            if (newLevel >= _minLevel || newLevel <= _maxLevel)
-                _level = newLevel;
+            _level = newLevel >= _minLevel? newLevel : _minLevel;
         }
     }
 
-    public float Value => Mathf.Lerp(_minValue, _maxValue, _level / 10);
+    public float Value => _minValue + _delta * _level;
 
-    public PlayerParameter(float minValue, float maxValue, float level = 0)
+    public PlayerParameter(float minValue, float delta, float level = 0)
     {
         _minValue = minValue;
-        _maxValue = maxValue;
+        _delta = delta;
         Level = level;
     }
 }

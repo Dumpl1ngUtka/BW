@@ -10,6 +10,6 @@ public class HearingSkill : Skill
 
     public override void ChangePlayerParameter(PlayerParameters playerParameters)
     {
-        playerParameters.SoundRange.Level = Level;
+        playerParameters.SoundRange.Level += Level;
     }
 }

@@ -2,33 +2,28 @@ using UnityEngine;
 
 public class PlayerParameters 
 {
-    [Header("Health")]
-    public PlayerParameter Health = new (100,200);
-    public PlayerParameter Stamina = new(100,200);
+    public PlayerParameter Health { get; private set; } = new (100,20);
+    public PlayerParameter Stamina { get; private set; } = new(100,10);
 
-    [Header("MOVEMENT")]
-    public PlayerParameter MaxSpeed = new(7, 10);
-    public PlayerParameter Acceleration = new(60, 120);
-    public PlayerParameter GroundDeceleration = new(30, 60);
-    public PlayerParameter AirDeceleration = new(15, 45);
-    public float GrounderDistance = 0.05f;//Range(0f, 0.5f)
+    public PlayerParameter MaxSpeed { get; private set; } = new(7, 1);
+    public PlayerParameter Acceleration { get; private set; } = new(60, 2);
+    public PlayerParameter GroundDeceleration { get; private set; } = new(30, 1);
+    public PlayerParameter AirDeceleration { get; private set; } = new(15, 1);
+    public float GrounderDistance { get; private set; } = 0.1f;//Range(0f, 0.5f)
 
-    public PlayerParameter Damage = new(10, 20);
-    public PlayerParameter SoundRange = new (80, 100);
-    public PlayerParameter AdditionalNoise = new(20, 0);
+    public PlayerParameter Damage { get; private set; } = new(10, 1);
+    public PlayerParameter SoundRange { get; private set; } = new (80, 5);
+    public PlayerParameter AdditionalNoise { get; private set; } = new(20, -1);
 
-    [Header("JUMP")]
-    public float JumpPower = 36;
-    public float MaxFallSpeed = 40;
-    public float FallAcceleration = 110;
-    public float CoyoteTime = 0.15f;
-    public float JumpBuffer = 0.2f;
-    public float FastFallMaxSpeedModifier = 2;
+    public float JumpPower { get; private set; } = 36;
+    public float MaxFallSpeed { get; private set; } = 40;
+    public float FallAcceleration { get; private set; } = 110;
+    public float CoyoteTime { get; private set; } = 0.15f;
+    public float JumpBuffer { get; private set; } = 0.2f;
+    public float FastFallMaxSpeedModifier { get; private set; } = 2;
 
-    [Header("DODGE")]
-    public PlayerParameter DodgeTime = new(0.2f,0.3f);
-    public PlayerParameter DodgeSpeed = new(20,30);
+    public PlayerParameter DodgeTime { get; private set; } = new(0.2f,0.01f);
+    public PlayerParameter DodgeSpeed { get; private set; } = new(20,1);
 
-    [Header("Block")]
-    public PlayerParameter BlockMaxSpeedModifier = new(0.3f,0.5f);
+    public PlayerParameter BlockMaxSpeedModifier { get; private set; } = new(0.3f,0.05f);
 }

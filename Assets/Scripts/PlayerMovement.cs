@@ -5,25 +5,30 @@ using static Noises.PlayerNoise;
 [RequireComponent(typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
     private Vector2 _movementDirection;
     private Vector2 _playerInputDirection;
     private int _availableJumpCount;
+    private bool _hasCoyotJump;
     private bool _isCanDodge;
     private bool _isGrounded;
     private Rigidbody2D _rigidbody;
     private CapsuleCollider2D _collider;
     private PlayerInputSystem _inputSystem;
     private Player _player;
+    private PlayerStats _playerStats;
     private Condition _currentCondition => _player.CurrentCondition;
-    private PlayerParameters _stats => _player.Parameters;
+    private PlayerParameters _stats => _playerStats.PlayerParameters;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _player = GetComponent<Player>();
-        _player.ChangeCurrentCondition(Player.ConditionType.Move);
+        _playerStats = GetComponent<PlayerStats>();
+        SetDefaultCondition();
         _inputSystem = _player.InputSystem;
+        NoiseValue = 0;//test
     }
 
     private void Update()
@@ -32,23 +37,32 @@ public class PlayerMovement : MonoBehaviour
         DodgeInput();
         JumpInput();
         BlockInput();
-        if (_rigidbody.velocity.magnitude > 0.1)
-            NoiseValue = 1;
-        else
-            NoiseValue = 0;
+        AttackInput();
     }
 
     private void BlockInput()
     {
-        if (_inputSystem.Movement.Block.IsPressed() && _currentCondition.IsCanControlCharacter)
+        if (_inputSystem.Movement.Block.IsPressed())
+        {
             _player.ChangeCurrentCondition(Player.ConditionType.Block);
-        else if (_currentCondition.IsCanControlCharacter)
-            _player.ChangeCurrentCondition(Player.ConditionType.Move);
+            _animator.SetBool("isBlock", true);
+        }
+        else
+        {
+            _animator.SetBool("isBlock", false);
+        }
+    }    
+    
+    private void AttackInput()
+    {
+        if (_inputSystem.Movement.Attack.triggered)
+            Attack();
     }
 
     private void JumpInput()
     {
-        if (_inputSystem.Movement.Jump.triggered && _availableJumpCount > 0)
+        var isCanJump = _hasCoyotJump || _isGrounded || _availableJumpCount > 0;
+        if (_inputSystem.Movement.Jump.triggered && isCanJump)
             Jump();
     }    
     
@@ -61,10 +75,9 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (_currentCondition.IsCanControlCharacter)
-            HorizontalMove();
+            HorizontalMove(); 
         CheckCollision();
-        if (_currentCondition.IsUsedGravity)
-            Gravity();
+        Gravity();
         ApplyMovement();
     }
 
@@ -72,19 +85,21 @@ public class PlayerMovement : MonoBehaviour
     {
         _isCanDodge = false;
         _player.ChangeCurrentCondition(Player.ConditionType.Dodge);
-        float directionX = 0;
-        if (_playerInputDirection.x > 0)
-            directionX = _stats.DodgeSpeed.Value;
-        else if (_playerInputDirection.x < 0)
-            directionX = -_stats.DodgeSpeed.Value;
-        _movementDirection.x = directionX;
-        var timer = 0f;
-        while (timer < _stats.DodgeTime.Value)
-        {
-            timer += Time.deltaTime;
-            _movementDirection.y = 0;
-            yield return null;
-        }
+        _movementDirection.x = 0;
+        if (_playerInputDirection.x != 0)
+            _movementDirection.x = _stats.DodgeSpeed.Value * (_playerInputDirection.x > 0 ? 1 : -1);
+        yield return new WaitForSeconds(_stats.DodgeTime.Value);
+        SetDefaultCondition();
+    }    
+    
+    private void Attack()
+    {
+        _player.ChangeCurrentCondition(Player.ConditionType.Attack);
+        _animator.SetTrigger("Attack");
+    }
+
+    private void SetDefaultCondition()
+    {
         _player.ChangeCurrentCondition(Player.ConditionType.Move);
     }
 
@@ -92,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_playerInputDirection.x == 0)
         {
-            var deceleration = _isGrounded ? _stats.GroundDeceleration.Value : _stats.AirDeceleration.Value;
+            var deceleration = _isGrounded ? _stats.GroundDeceleration.Value : _stats.AirDeceleration.Value;    
             _movementDirection.x = Mathf.MoveTowards(_movementDirection.x, 0, deceleration * Time.fixedDeltaTime);
         }
         else
@@ -114,44 +129,60 @@ public class PlayerMovement : MonoBehaviour
         if (!_isGrounded && groundHit)
         {
             _isGrounded = true;
-            _availableJumpCount = 2;
         }
         else if (_isGrounded && !groundHit)
         {
             _isGrounded = false;
+            StartCoroutine(CoyoteTime());
         }
 
-        if (!_isCanDodge && groundHit)
-        {
+        if (!_isCanDodge && _isGrounded)
             _isCanDodge = true;
-        }
+        if (_isGrounded && _availableJumpCount < 1)
+            _availableJumpCount = 1;
 
         Physics2D.queriesStartInColliders = true;
     }
 
+    private IEnumerator CoyoteTime()
+    {
+        _hasCoyotJump = true;
+        yield return new WaitForSeconds(_stats.CoyoteTime);
+        _hasCoyotJump = false;
+    }
+
     private void Jump()
     {
+        _animator.SetTrigger("Jump");
         _movementDirection.y = _stats.JumpPower;
-        _availableJumpCount--;
-    }   
+
+        if (!_hasCoyotJump)
+            _availableJumpCount--;
+    }
 
     private void Gravity()
     {
-        if (_isGrounded && _movementDirection.y < 0)
+        if (!_currentCondition.IsUsedGravity || _isGrounded && _movementDirection.y < 0)
         {
             _movementDirection.y = 0;
+            return;
         }
-        else
-        {
-            var inAirGravity = _stats.FallAcceleration;
-            var maxFallSpeed = _playerInputDirection.y < 0 ?
-                _stats.MaxFallSpeed * _stats.FastFallMaxSpeedModifier : _stats.MaxFallSpeed;
-            _movementDirection.y = Mathf.MoveTowards(_movementDirection.y, -maxFallSpeed, inAirGravity * Time.fixedDeltaTime);
-        }
+
+        var inAirGravity = _stats.FallAcceleration;
+        var maxFallSpeed = _playerInputDirection.y < 0 ?
+            _stats.MaxFallSpeed * _stats.FastFallMaxSpeedModifier : _stats.MaxFallSpeed;
+        _movementDirection.y = Mathf.MoveTowards(_movementDirection.y, -maxFallSpeed, inAirGravity * Time.fixedDeltaTime);
     }
 
     private void ApplyMovement()
     {
         _rigidbody.velocity = _movementDirection;
+        if (_movementDirection.x != 0)
+        {
+            _animator.SetBool("IsRun", true);
+            
+        }
+        else
+            _animator.SetBool("IsRun", false);
     }
 }
