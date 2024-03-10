@@ -4,13 +4,14 @@ using UnityEngine.InputSystem;
 
 public class SkillsMenu : MonoBehaviour
 {
-    [SerializeField] private PlayerSkillLevels _skillLevels;
+    [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private SkillsMenuCell Health;
     [SerializeField] private SkillsMenuCell Endurance;
     [SerializeField] private SkillsMenuCell Strength;
     [SerializeField] private SkillsMenuCell Dexterity;
     [SerializeField] private SkillsMenuCell Hearing;
     [SerializeField] private SkillsMenuCell Stealth;
+    private PlayerSkillLevels _skillLevels;
     private SkillsMenuCell[] _skillsMenuCells = new SkillsMenuCell[6];
     private int _currentCellIndex = 0;
     private PlayerInputSystem _playerInputSystem;
@@ -19,6 +20,7 @@ public class SkillsMenu : MonoBehaviour
     private void Awake()
     {
         _playerInputSystem = new PlayerInputSystem();
+        _skillLevels = _playerStats.PlayerSkillLevels;
         _playerInputSystem.UI.ChooseItem.started += Select;
         _playerInputSystem.UI.Accept.started += AddLevels;
     }

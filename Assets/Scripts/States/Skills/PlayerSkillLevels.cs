@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-public class PlayerSkillLevels : MonoBehaviour
+public class PlayerSkillLevels
 {
     public readonly Skill[] Skills = new Skill[6];
 
@@ -16,7 +15,7 @@ public class PlayerSkillLevels : MonoBehaviour
 
     public int LevelPoints { get; private set; } = 12;
 
-    private void Awake()
+    public PlayerSkillLevels()
     {
         InitSkills();
     }

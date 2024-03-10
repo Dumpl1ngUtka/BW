@@ -1,47 +1,63 @@
 using System;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-[RequireComponent(typeof(Player))]
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour 
 {
-    private PlayerParameters _parameters;
     private PlayerStats _playerStats;
-    private Player _player;
-    private float _healthMax;
     private float _health;
+    private float _healthMax;
 
     public Action<float> OnHealthChange;
+    public Action HealthIsZero;
 
-    private void Start()
+    public void Start()
     {
-        _playerStats = GetComponent<PlayerStats>();
-        _player = GetComponent<Player>();
-        _parameters = _playerStats.PlayerParameters;
         UpdateMaxHealth();
         _health = _healthMax;
+    }
+
+    private void OnEnable()
+    {
+        if (_playerStats == null)
+            _playerStats = GetComponent<PlayerStats>();
+
         _playerStats.ParametersChanged += UpdateMaxHealth;
+    }
+
+    private void OnDisable()
+    {
+        _playerStats.ParametersChanged -= UpdateMaxHealth;
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<EnemyHitBox>(out var hitBox))
+            TakeDamage(hitBox.Damage);
     }
 
     public void TakeDamage(float damage)
     {
         _health -= damage;
-
         OnHealthChange?.Invoke(_health / _healthMax);
-
         if (_health < 0)
-            Debug.Log("game over");
+            HealthIsZero?.Invoke();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        var hitBox = other.GetComponent<EnemyHitBox>();
-        if (hitBox != null && _player.CurrentCondition.IsDamageable)
-            TakeDamage(hitBox.Damage);
-    }
 
     private void UpdateMaxHealth()
     {
-        _healthMax = _parameters.Health.Value;
+        _healthMax = _playerStats.PlayerParameters.Health.Value;
+        OnHealthChange?.Invoke(_health / _healthMax);
+    }
+
+    public void AddHealthByPrecent(float precent)
+    {
+        if (precent <= 0)
+            return;
+
+        _health += _healthMax * precent / 100;
+        if (_health > 0)
+            _health = 0;
+
+        OnHealthChange?.Invoke(_health / _healthMax);
     }
 }
