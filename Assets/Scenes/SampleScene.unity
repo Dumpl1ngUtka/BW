@@ -699,7 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aba5c91084de6643ac54cdcbc490359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerStats: {fileID: 1215192127}
+  _playerStats: {fileID: 1215192136}
   Health: {fileID: 4659388431586033957}
   Endurance: {fileID: 815450605}
   Strength: {fileID: 1657775670}
@@ -1742,7 +1742,7 @@ GameObject:
   - component: {fileID: 1215192130}
   - component: {fileID: 1215192129}
   - component: {fileID: 1215192131}
-  - component: {fileID: 1215192127}
+  - component: {fileID: 1215192136}
   - component: {fileID: 1215192132}
   - component: {fileID: 1215192133}
   - component: {fileID: 1215192134}
@@ -1843,18 +1843,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1215192127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215192120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11904e49cd68c94ca8a7d0ff0319120, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1215192129
 Rigidbody2D:
   serializedVersion: 4
@@ -1950,6 +1938,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7aeb8cc6a38db445899b73911f32387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1215192136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215192120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11904e49cd68c94ca8a7d0ff0319120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1218725432
@@ -3115,7 +3115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793cacafc3a98744bbccca8f199aace3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unit: {fileID: 1215192127}
+  _unit: {fileID: 0}
   _damageMultiplier: 1
 --- !u!58 &1991818513
 CircleCollider2D:

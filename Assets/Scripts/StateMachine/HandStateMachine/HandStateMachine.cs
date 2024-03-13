@@ -11,9 +11,9 @@ namespace StateMachine
         public Block BlockState { get; private set; }
         public Idle IdleState { get; private set; }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             MovementStateMachine = GetComponent<MovementStateMachine>();
             SetStates();
             ChangeState(IdleState);

@@ -14,11 +14,6 @@ public class PlayerBonusHolder
         return MaxBonusCount - activeBonusCount;
     }
 
-    private void Awake()
-    {
-        MaxBonusCount = 5;
-    }
-
     public void AddNewBonus(Bonus bonus)
     {
         Bonuses.Add(bonus);

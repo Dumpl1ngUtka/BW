@@ -15,8 +15,11 @@ public class PlayerSkillLevels
 
     public int LevelPoints { get; private set; } = 12;
 
+    private const string _saveKey = "skills";
+
     public PlayerSkillLevels()
     {
+        Load();
         InitSkills();
     }
 
@@ -25,6 +28,7 @@ public class PlayerSkillLevels
         foreach (var skill in Skills)
             LevelPoints += skill.Reset();
         SkillsChanged?.Invoke();
+        Save();
     }
 
     public bool TryLevelUp(Skill skill, int value = 1)
@@ -34,6 +38,7 @@ public class PlayerSkillLevels
 
         LevelPoints -= value;
         SkillsChanged?.Invoke();
+        Save();
         return true;
     }
 
@@ -45,5 +50,38 @@ public class PlayerSkillLevels
         Skills[3] = Dexterity;
         Skills[4] = Hearing;
         Skills[5] = Stealth;
+    }
+
+    private void Load()
+    {
+        var data = SaveSystem.SaveLoadManager.Load<SaveSystem.SkillLevels>(_saveKey);
+
+        Health = new(data.HealthLevel);
+        Endurance = new(data.EnduranceLevel);
+        Strength = new(data.StrengthLevel);
+        Dexterity = new(data.DexterityLevel);
+        Hearing = new(data.HearingLevel);
+        Stealth = new(data.StealthLevel);
+        LevelPoints = data.LevelPoints;
+    }
+
+    private void Save()
+    {
+        SaveSystem.SaveLoadManager.Save(_saveKey, GetCurrentData());
+    }
+
+    private SaveSystem.SkillLevels GetCurrentData()
+    {
+        var data = new SaveSystem.SkillLevels()
+        {
+            HealthLevel = Health.Level,
+            EnduranceLevel = Endurance.Level,
+            StrengthLevel = Strength.Level,
+            DexterityLevel = Dexterity.Level,
+            HearingLevel = Hearing.Level,
+            StealthLevel = Stealth.Level,
+            LevelPoints = LevelPoints,
+        };
+        return data;
     }
 }

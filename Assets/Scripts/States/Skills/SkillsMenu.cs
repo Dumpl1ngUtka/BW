@@ -72,6 +72,9 @@ public class SkillsMenu : MonoBehaviour
         _currentCellIndex = 0;
         _skillPoints = _skillLevels.LevelPoints;
         RenderCells();
+
+        var data = SaveSystem.SaveLoadManager.Load<SaveSystem.SkillLevels>("skills");
+        Debug.Log(data.LevelPoints);
     }
 
     private void RenderCells()

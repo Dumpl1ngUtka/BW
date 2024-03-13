@@ -8,14 +8,16 @@ namespace StateMachine
         public PlayerStats PlayerStats { get; private set; }
         public PlayerInputSystem InputActions { get; private set; }
 
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             PlayerStats = GetComponent<PlayerStats>();
-            InputActions = new PlayerInputSystem();
         }
 
         protected virtual void OnEnable()
         {
+            if (InputActions == null)
+                InputActions = new PlayerInputSystem();
+
             InputActions.Enable();
         }
 

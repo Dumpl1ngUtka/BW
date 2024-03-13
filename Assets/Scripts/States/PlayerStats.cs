@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public PlayerParameters PlayerParameters { get; private set; }
+    public PlayerParameters PlayerParameters { get; private set; } = new PlayerParameters();
     public PlayerBonusHolder BonusHolder { get; private set; }
     public PlayerSkillLevels PlayerSkillLevels { get; private set; }
 
@@ -12,21 +12,21 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         PlayerSkillLevels = new PlayerSkillLevels();
-        PlayerParameters = new PlayerParameters();
         BonusHolder = new PlayerBonusHolder();
+        CalculatePlayerParameters();
     }
 
     private void OnEnable()
     {
-        PlayerSkillLevels.SkillsChanged += ChangePlayerParameters;
+        PlayerSkillLevels.SkillsChanged += CalculatePlayerParameters;
     }
 
     private void OnDisable()
     {
-        PlayerSkillLevels.SkillsChanged -= ChangePlayerParameters;
+        PlayerSkillLevels.SkillsChanged -= CalculatePlayerParameters;
     }
 
-    private void ChangePlayerParameters()
+    private void CalculatePlayerParameters()
     {
         var newPlayerParameters = new PlayerParameters();
         foreach (var skill in PlayerSkillLevels.Skills)

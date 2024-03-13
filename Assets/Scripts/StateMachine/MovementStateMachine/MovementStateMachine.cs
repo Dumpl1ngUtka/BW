@@ -30,9 +30,9 @@ namespace StateMachine
             set { _availableDodgeCount = Mathf.Clamp(value, 0, 1); }
         }
 
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
             HandStateMachine = GetComponent<HandStateMachine>();
             Rigidbody = GetComponent<Rigidbody2D>();
             Collider = GetComponent<CapsuleCollider2D>();

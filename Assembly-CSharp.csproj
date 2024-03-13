@@ -62,6 +62,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\Scripts\States\Bonuses\Bonus.cs" />
     <Compile Include="Assets\Scripts\StateMachine\MovementStateMachine\States\Move.cs" />
+    <Compile Include="Assets\Scripts\SaveSystem\SkillLevels.cs" />
     <Compile Include="Assets\Scripts\StateMachine\HandStateMachine\HandStateMachine.cs" />
     <Compile Include="Assets\Scripts\StateMachine\MovementStateMachine\States\Jump.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\PlayerInputSystem.cs" />
+    <Compile Include="Assets\Scripts\SaveSystem\SaveLoadMeneger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
